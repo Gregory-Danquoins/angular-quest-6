@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+        <div formGroupName="identity">
+          <div class="form-group">
+            <label for="title">title</label>
+            <input
+              type="text"
+              id="title"
+              formControlName="title"
+              class="form-control"
+            />
+          </div>
+          <div class="form-group">
+            <label for="identifier">identifier</label>
+            <input
+              type="text"
+              id="identifier"
+              formControlName="identifier"
+              class="form-control"
+            />
+          </div>
+
+          <span
+            *ngIf="isSubmitted && !searchForm.get('identity').valid"
+            class="help-block"
+          >
+            <span *ngIf="searchForm.get('identity').errors['isRequired']">{{
+              searchForm.get("identity").errors["isRequired"].message
+            }}</span>
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="releaseYear">Release year</label>
+          <input
+            type="number"
+            id="releaseYear"
+            formControlName="releaseYear"
+            class="form-control"
+          />
+          <span
+            *ngIf="isSubmitted && !searchForm.get('releaseYear').valid"
+            class="help-block"
+          >
+            <span *ngIf="searchForm.get('releaseYear').errors['min']">{{
+              searchForm.get("releaseYear").errors["min"].message
+            }}</span>
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label> Type </label><br />
+          <select formControlName="type">
+            <option *ngFor="let type of types" [ngValue]="type">
+              {{ type }}
+            </option>
+          </select>
+        </div>
+
+        <div
+          class="form-group"
+          *ngIf="searchForm.get('identity.identifier').value !== ''"
+        >
+          <label> Sheet </label><br />
+          <select formControlName="sheet">
+            <option *ngFor="let sheet of sheets" [ngValue]="sheet">
+              {{ sheet || "Choice a sheet format" }}
+            </option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Search movie</button>
+      </form>
+    </div>
+  </div>
+</div>
